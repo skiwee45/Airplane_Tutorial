@@ -37,6 +37,8 @@ public class AircraftPhysicsDisplaySettings : ScriptableObject
     public float displayRollControl = 0;
     [Range(-1, 1)]
     public float displayYawControl = 0;
+    [Range(-1, 1)]
+    public float displayFlapControl = 0;
 
     [Header("Surfaces")]
     public bool showSurfaces = true;

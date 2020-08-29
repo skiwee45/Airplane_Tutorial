@@ -32,8 +32,20 @@ public class AeroSurface : MonoBehaviour
     public void Initialize()
     {
         area = config.chord * config.chord * config.aspectRatio;
-        correctedLiftSlope = config.liftSlope * config.aspectRatio /
-           (config.aspectRatio + 2 * (config.aspectRatio + 4) / (config.aspectRatio + 2));
+
+        //correction for 2 parts of the wing instead of one
+        if (gameObject.CompareTag("Wing"))
+        {
+            float aspectRatio = 2.1f;
+            correctedLiftSlope = config.liftSlope * aspectRatio /
+               (aspectRatio + 2 * (aspectRatio + 4) / (aspectRatio + 2));
+        }
+        else
+        {
+            correctedLiftSlope = config.liftSlope * config.aspectRatio /
+               (config.aspectRatio + 2 * (config.aspectRatio + 4) / (config.aspectRatio + 2));
+        }
+
         SetFlapAngle(0);
         initialized = true;
     }

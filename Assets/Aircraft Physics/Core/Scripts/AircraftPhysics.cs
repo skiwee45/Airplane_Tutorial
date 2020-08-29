@@ -23,7 +23,7 @@ public class AircraftPhysics : MonoBehaviour
         thrustPercent = percent;
     }
 
-    public void SetControlSurfecesAngles(float pitch, float roll, float yaw)
+    public void SetControlSurfecesAngles(float pitch, float roll, float yaw, float flap)
     {
         foreach (var controlSurface in controlSurfaces)
         {
@@ -38,6 +38,9 @@ public class AircraftPhysics : MonoBehaviour
                     break;
                 case ControlSurfaceType.Yaw:
                     controlSurface.surface.SetFlapAngle(yaw * controlSurface.flapAngle);
+                    break;
+                case ControlSurfaceType.Flap:
+                    controlSurface.surface.SetFlapAngle(flap * controlSurface.flapAngle);
                     break;
             }
         }
@@ -98,8 +101,30 @@ public class AircraftPhysics : MonoBehaviour
             * (inertiaTensorWorldRotation * angularVelocityChangeInDiagonalSpace);
     }
 
+    public void Brake(bool isBraking) //increases drag on wheels
+    {
+        //add drag on wheels
+        SphereCollider[] wheels = FindObjectsOfType<SphereCollider>();
+
+        //change based on isBraking
+        float friction;
+        if (isBraking)
+        {
+            friction = 0.2f;
+        }
+        else
+        {
+            friction = 0f;
+        }
+
+        foreach (SphereCollider wheel in wheels)
+        {
+            wheel.material.dynamicFriction = friction;
+        }
+    }
+
 #if UNITY_EDITOR
-    public void CalculateCenterOfLift(out Vector3 center, out Vector3 force, Vector3 displayAirVelocity, float displayAirDensity, float pitch, float yaw, float roll)
+    public void CalculateCenterOfLift(out Vector3 center, out Vector3 force, Vector3 displayAirVelocity, float displayAirDensity, float pitch, float yaw, float roll, float flap)
     {
         Vector3 com;
         BiVector3 forceAndTorque;
@@ -118,7 +143,7 @@ public class AircraftPhysics : MonoBehaviour
                 if (surface.Config != null)
                     surface.Initialize();
             }
-            SetControlSurfecesAngles(pitch, roll, yaw);
+            SetControlSurfecesAngles(pitch, roll, yaw, flap);
             forceAndTorque = CalculateAerodynamicForces(-displayAirVelocity, Vector3.zero, Vector3.zero, displayAirDensity, com);
         }
         else
@@ -141,4 +166,4 @@ public class ControlSurface
     public ControlSurfaceType type;
 }
 
-public enum ControlSurfaceType { Pitch, Yaw, Roll }
+public enum ControlSurfaceType { Pitch, Yaw, Roll, Flap }
