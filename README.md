@@ -10,5 +10,5 @@ Based on [__Aircraft-Physics__](https://github.com/gasgiant/Aircraft-Physics)
 - Use b to turn on ground brakes
 
 
-[__Watch video tutorial__](https://youtu.be/p3jDJ9FtTyM)
-![Thumbnail](https://i.imgur.com/Xx7fCtX.png "Video thumbnail")
+[__Watch video tutorial__](https://youtu.be/e91QA4WfL5Q)
+![Thumbnail](https://imgur.com/UvXQ6uZ.jpeg)
