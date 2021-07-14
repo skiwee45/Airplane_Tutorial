@@ -17,6 +17,8 @@ public class AircraftPhysics : MonoBehaviour
     Rigidbody rb;
     float thrustPercent;
     BiVector3 currentForceAndTorque;
+    private bool isStopped = false;
+
 
     public void SetThrustPercent(float percent)
     {
@@ -50,7 +52,10 @@ public class AircraftPhysics : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
     }
-
+    public void StopMotors()
+    {
+        isStopped = true;
+    }
     private void FixedUpdate()
     {
         BiVector3 forceAndTorqueThisFrame = 
@@ -67,6 +72,12 @@ public class AircraftPhysics : MonoBehaviour
         rb.AddTorque(currentForceAndTorque.q);
 
         rb.AddForce(transform.forward * thrust * thrustPercent);
+          if(isStopped)
+        {
+        rb.AddForce(-2*(transform.forward * thrust * thrustPercent));
+
+            isStopped = !isStopped;
+        }
     }
 
     private BiVector3 CalculateAerodynamicForces(Vector3 velocity, Vector3 angularVelocity, Vector3 wind, float airDensity, Vector3 centerOfMass)
