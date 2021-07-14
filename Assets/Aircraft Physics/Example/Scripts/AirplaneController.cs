@@ -47,8 +47,12 @@ public class AirplaneController : MonoBehaviour
         {
             SetThrust(thrustPercent + thrustControlSensitivity);
         }
+          if (Input.GetKey(KeyCode.F))
+        {
+            SetThrust(0);
+        }
         propeller.speed = thrustPercent * 1500f;
-
+        
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             thrustControlSensitivity *= -1;
@@ -66,7 +70,12 @@ public class AirplaneController : MonoBehaviour
             //clamp
             flap = Mathf.Clamp(flap, 0f, Mathf.Deg2Rad * 40);
         }
-
+          if (Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            flap -= flapControlSensitivity;
+            //clamp
+            flap = Mathf.Clamp(flap, 0f, Mathf.Deg2Rad * 40);
+        }
         pitch = pitchControlSensitivity * Input.GetAxis("Vertical");
         roll = rollControlSensitivity * Input.GetAxis("Horizontal");
         yaw = yawControlSensitivity * Input.GetAxis("Yaw");
@@ -79,6 +88,11 @@ public class AirplaneController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(thrustPercent == 0)
+        {
+        aircraftPhysics.StopMotors();
+
+        }
         aircraftPhysics.SetControlSurfecesAngles(pitch, roll, yaw, flap);
         aircraftPhysics.SetThrustPercent(thrustPercent);
         aircraftPhysics.Brake(brake);
