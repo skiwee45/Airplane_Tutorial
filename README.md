@@ -4,10 +4,9 @@ Physics Based Airplane Controller (Unity)
 Based on [__Aircraft-Physics__](https://github.com/gasgiant/Aircraft-Physics)
 
 ## Modifications Made:
-- Use spacebar to control thrust
-- Use CTRL to lower and raise flaps
-- Use shift to reverse thrust and flap control
-- Use b to turn on ground brakes
+- Controllable thrust
+- Added flaps to wings (used for takeoff and landing)
+- Added ground breaks
 
 
 [__Watch video tutorial__](https://youtu.be/e91QA4WfL5Q)
